@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LeafGuard AI — Pest Detection System</title>
+    <meta name="description" content="AI-powered leaf pest detection using deep learning. Upload a leaf image to instantly detect pests and get treatment recommendations.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body>
+    <!-- Animated Background -->
+    <div class="bg-animation">
+        <div class="floating-leaf leaf-1">🍃</div>
+        <div class="floating-leaf leaf-2">🌿</div>
+        <div class="floating-leaf leaf-3">🍂</div>
+        <div class="floating-leaf leaf-4">🌱</div>
+        <div class="floating-leaf leaf-5">🍃</div>
+        <div class="floating-leaf leaf-6">🌿</div>
+    </div>
+
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div class="logo">
+                <div class="logo-icon">🌿</div>
+                <div class="logo-text">
+                    <h1>LeafGuard <span class="accent">AI</span></h1>
+                    <p class="tagline">Intelligent Pest Detection System</p>
+                </div>
+            </div>
+            <div class="header-badge">
+                <span class="badge-dot"></span>
+                <span id="mode-badge">Loading...</span>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main">
+        <div class="container">
+            <!-- Hero Section -->
+            <section class="hero" id="hero-section">
+                <h2 class="hero-title">
+                    Detect Leaf Pests <br>
+                    <span class="gradient-text">Instantly with AI</span>
+                </h2>
+                <p class="hero-subtitle">
+                    Upload a leaf image and our MobileNetV2 deep learning model 
+                    will analyze it for pest damage in seconds.
+                </p>
+            </section>
+
+            <!-- Upload Section -->
+            <section class="upload-section" id="upload-section">
+                <div class="upload-card glass-card">
+                    <div class="upload-zone" id="upload-zone">
+                        <input type="file" id="file-input" accept="image/*" hidden>
+                        <div class="upload-content" id="upload-content">
+                            <div class="upload-icon">
+                                <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                                    <polyline points="17 8 12 3 7 8"/>
+                                    <line x1="12" y1="3" x2="12" y2="15"/>
+                                </svg>
+                            </div>
+                            <h3>Drop your leaf image here</h3>
+                            <p>or <span class="upload-link">browse files</span></p>
+                            <p class="upload-hint">Supports JPG, PNG, WebP • Max 10MB</p>
+                        </div>
+                        <div class="preview-content" id="preview-content" style="display:none;">
+                            <img id="preview-image" src="" alt="Preview">
+                            <button class="btn-remove" id="btn-remove" title="Remove image">✕</button>
+                        </div>
+                    </div>
+                    <button class="btn-predict" id="btn-predict" disabled>
+                        <span class="btn-text">🔍 Analyze Leaf</span>
+                        <span class="btn-loading" style="display:none;">
+                            <span class="spinner"></span>
+                            Analyzing...
+                        </span>
+                    </button>
+                </div>
+            </section>
+
+            <!-- Sample Images -->
+            <section class="samples-section" id="samples-section">
+                <h3 class="section-title">Try Sample Images</h3>
+                <div class="samples-grid" id="samples-grid">
+                    <!-- Populated by JS -->
+                </div>
+            </section>
+
+            <!-- Results Section -->
+            <section class="results-section" id="results-section" style="display:none;">
+                <div class="results-card glass-card">
+                    <div class="results-header">
+                        <h3>Analysis Results</h3>
+                        <button class="btn-new" id="btn-new">+ New Analysis</button>
+                    </div>
+                    
+                    <div class="results-body">
+                        <!-- Main Result -->
+                        <div class="result-main" id="result-main">
+                            <div class="result-emoji" id="result-emoji">✅</div>
+                            <div class="result-info">
+                                <h2 class="result-name" id="result-name">Healthy Leaf</h2>
+                                <p class="result-description" id="result-description"></p>
+                            </div>
+                        </div>
+
+                        <!-- Confidence Meter -->
+                        <div class="confidence-section">
+                            <div class="confidence-header">
+                                <span>Confidence</span>
+                                <span class="confidence-value" id="confidence-value">95%</span>
+                            </div>
+                            <div class="confidence-bar">
+                                <div class="confidence-fill" id="confidence-fill" style="width: 0%"></div>
+                            </div>
+                        </div>
+
+                        <!-- All Probabilities -->
+                        <div class="probabilities" id="probabilities">
+                            <!-- Populated by JS -->
+                        </div>
+
+                        <!-- Recommendation -->
+                        <div class="recommendation-card" id="recommendation-card">
+                            <div class="rec-icon">💡</div>
+                            <div class="rec-content">
+                                <h4>Recommendation</h4>
+                                <p id="recommendation-text"></p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Demo Badge -->
+                    <div class="demo-badge" id="demo-badge" style="display:none;">
+                        <span>🎭 Demo Mode — Results are simulated using image color analysis</span>
+                    </div>
+                </div>
+            </section>
+
+            <!-- How It Works -->
+            <section class="how-section">
+                <h3 class="section-title">How It Works</h3>
+                <div class="steps-grid">
+                    <div class="step-card glass-card">
+                        <div class="step-number">01</div>
+                        <div class="step-icon">📸</div>
+                        <h4>Upload Image</h4>
+                        <p>Take a photo of the leaf or upload an existing image</p>
+                    </div>
+                    <div class="step-card glass-card">
+                        <div class="step-number">02</div>
+                        <div class="step-icon">🧠</div>
+                        <h4>AI Analysis</h4>
+                        <p>MobileNetV2 CNN processes the image in milliseconds</p>
+                    </div>
+                    <div class="step-card glass-card">
+                        <div class="step-number">03</div>
+                        <div class="step-icon">📊</div>
+                        <h4>Get Results</h4>
+                        <p>Instant pest detection with treatment recommendations</p>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p>Powered by <strong>MobileNetV2</strong> • TensorFlow • Flask</p>
+            <p class="footer-sub">LeafGuard AI — Pest Detection Demo</p>
+        </div>
+    </footer>
+
+    <script src="/static/js/app.js"></script>
+</body>
+</html>

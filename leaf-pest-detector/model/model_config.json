@@ -1,0 +1,31 @@
+{
+  "class_names": [
+    "aphid",
+    "caterpillar",
+    "healthy"
+  ],
+  "img_size": 224,
+  "is_demo": true,
+  "num_classes": 3,
+  "framework": "pytorch",
+  "descriptions": {
+    "healthy": {
+      "name": "Healthy Leaf",
+      "emoji": "\u2705",
+      "description": "The leaf appears healthy with no signs of pest damage. Good plant health indicators observed.",
+      "recommendation": "Continue regular care and monitoring. No treatment needed."
+    },
+    "aphid": {
+      "name": "Aphid Infestation",
+      "emoji": "\ud83d\udc1b",
+      "description": "Aphids detected on the leaf surface. These small insects suck plant sap, causing leaf curling and yellowing.",
+      "recommendation": "Apply neem oil spray or introduce ladybugs as natural predators. Remove heavily infested leaves."
+    },
+    "caterpillar": {
+      "name": "Caterpillar Damage",
+      "emoji": "\ud83e\udd8b",
+      "description": "Signs of caterpillar feeding detected. Irregular holes and chewed leaf edges indicate active caterpillar presence.",
+      "recommendation": "Hand-pick caterpillars if few. Apply Bt (Bacillus thuringiensis) spray for larger infestations."
+    }
+  }
+}
